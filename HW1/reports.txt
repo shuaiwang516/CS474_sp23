@@ -1,0 +1,23 @@
+=====================================
+Checking file: swang516_hw1_g.smt2
+file swang516_hw1_g.smt2 is UNSAT
+=====================================
+=====================================
+Checking file: swang516_hw1_h.smt2
+file swang516_hw1_h.smt2 is SAT
+[p41 = False,
+ p31 = True,
+ p20 = False,
+ p22 = True,
+ p42 = False,
+ p01 = False,
+ p12 = True,
+ p32 = False,
+ p21 = False,
+ p11 = False,
+ p40 = True,
+ p10 = False,
+ p02 = False,
+ p30 = False,
+ p00 = True]
+=====================================
