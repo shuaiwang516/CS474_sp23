@@ -1,6 +1,6 @@
 # Check 3-colorable for any arbitrary graph
 
-An simple python code to use this checker:
+A simple python code to use this checker:
 ```python
 from solver_any_graph import *
 
