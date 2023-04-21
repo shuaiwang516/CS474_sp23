@@ -19,8 +19,8 @@ solver = Solver()
 solver.add(0 <= r, r <= 1, 0 <= s, s <= 1, 0 <= r_prime, r_prime <= 1, 0 <= s_prime, s_prime <= 1)
 
 # Add the conditions for Nash equilibrium
-solver.add(ForAll(r_prime, EP_R <= EP_R_deviate))
-solver.add(ForAll(s_prime, EP_S <= EP_S_deviate))
+solver.add(ForAll(r_prime, EP_R >= EP_R_deviate))
+solver.add(ForAll(s_prime, EP_S >= EP_S_deviate))
 
 # Check the satisfiability and print the result
 if solver.check() == sat:
