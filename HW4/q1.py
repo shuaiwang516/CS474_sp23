@@ -5,11 +5,11 @@ r, s = Reals('r s')
 r_prime, s_prime = Reals("r' s'")
 
 # Define the expected payoffs for player R and player S
-EP_R = r * (s * 90 + (1 - s) * 30) + (1 - r) * (s * 20 + (1 - s) * 60)
+EP_R = r * (s * 90 + (1 - s) * 20) + (1 - r) * (s * 30 + (1 - s) * 60)
 EP_S = s * (r * 10 + (1 - r) * 70) + (1 - s) * (r * 80 + (1 - r) * 40)
 
 # Define the expected payoffs for player R and player S when deviating
-EP_R_deviate = r_prime * (s * 90 + (1 - s) * 30) + (1 - r_prime) * (s * 20 + (1 - s) * 60)
+EP_R_deviate = r_prime * (s * 90 + (1 - s) * 20) + (1 - r_prime) * (s * 30 + (1 - s) * 60)
 EP_S_deviate = s_prime * (r * 10 + (1 - r) * 70) + (1 - s_prime) * (r * 80 + (1 - r) * 40)
 
 # Create a solver
