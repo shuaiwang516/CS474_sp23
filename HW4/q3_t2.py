@@ -1,26 +1,33 @@
 from z3 import *
 
-# Declare the function f, constants b and c, and variable e
-f = Function('f', IntSort(), IntSort(), IntSort())
-b, c, e = Ints('b c e')
+# Declare functions and variables
+f = Function("f", IntSort(), IntSort(), IntSort())
+c, d, e = Ints("c d e")
+g = Function("g", IntSort(), IntSort())
 
-# Set up the formula
-formula1 = And(f(e, b) == e, f(b, e) == e)
-formula2 = And(f(e, c) == e, f(c, e) == e)
-formula3 = Not(b == c)
-formula4 = And(formula1, formula2, formula3)
+formula = And(
+    f(f(c, c), c) == f(c, f(c, c)),
+    f(f(d, c), c) == f(d, f(c, c)),
+    f(f(c, d), c) == f(c, f(d, c)),
+    f(f(c, c), d) == f(c, f(c, d)),
+    f(f(d, d), c) == f(d, f(d, c)),
+    f(f(c, d), d) == f(c, f(d, d)),
+    f(f(d, c), d) == f(d, f(c, d)),
+    f(f(d, d), d) == f(d, f(d, d)),
+    And(f(c, e) == c, f(e, c) == c),
+    And(f(d, e) == d, f(e, d) == d),
+    And(f(c, g(c)) == e, f(g(c), c) == e),
+    And(f(d, g(d)) == e, f(g(d), d) == e),
+    And(f(c, d) == e, f(d, c) == e, Not(d == g(c))),
+    And(f(d, c) == e, f(c, d) == e, Not(c == g(d)))
+)
 
-# Identity axioms
-identity_b = And(f(b, e) == b, f(e, b) == b)
-identity_c = And(f(c, e) == c, f(e, c) == c)
-
-# Combine the formulas and axioms
-complete_formula = And(formula4, identity_b, identity_c)
-
-# Create a solver and add the formula
+# Check the satisfiability
 solver = Solver()
-solver.add(complete_formula)
-
-# Check satisfiability
+solver.add(formula)
 result = solver.check()
+
 print(result)
+if result == sat:
+    model = solver.model()
+    print(model)

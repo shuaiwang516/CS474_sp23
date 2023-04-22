@@ -1,36 +1,34 @@
 from z3 import *
 
-# Declare function symbols
-f = Function('f', IntSort(), IntSort(), IntSort())
-g = Function('g', IntSort(), IntSort())
+# Declare functions and variables
+f = Function("f", IntSort(), IntSort(), IntSort())
+c, e = Ints("c e")
+g = Function("g", IntSort(), IntSort())
 
-# Declare constants
-e, c = Ints('e c')
+# Create the formula
+formula = And(
+    f(f(c, c), c) == f(c, f(c, c)),
+    f(f(e, c), c) == f(e, f(c, c)),
+    f(f(c, e), c) == f(c, f(e, c)),
+    f(f(c, c), e) == f(c, f(c, e)),
+    f(f(e, e), c) == f(e, f(e, c)),
+    f(f(c, e), e) == f(c, f(e, e)),
+    f(f(e, c), e) == f(e, f(c, e)),
+    f(f(e, e), e) == f(e, f(e, e)),
+    And(f(c, e) == c, f(e, c) == c),
+    And(f(e, e) == e, f(e, e) == e),
+    And(f(c, g(c)) == e, f(g(c), c) == e),
+    And(f(e, g(e)) == e, f(g(e), e) == e),
+    And(f(c, c) == c, f(c, c) == c, Not(e == c)),
+    And(f(e, c) == e, f(c, e) == e, Not(e == c))
+)
 
-# Declare variables
-x = Int('x')
-
-# Identity formula
-identity_formula = And(f(x, e) == x, f(e, x) == x)
-
-# Instantiate with depth 0 ground terms
-instance_c = substitute(identity_formula, (x, c))
-instance_e = substitute(identity_formula, (x, e))
-
-# Negated formula with substituted constant symbol c
-negated_formula = And(f(x, c) == x, f(c, x) == x, Not(e == c))
-
-# Instantiate with depth 0 ground terms
-instance_neg_c = substitute(negated_formula, (x, c))
-instance_neg_e = substitute(negated_formula, (x, e))
-
-# Create solver and add constraints
+# Check the satisfiability
 solver = Solver()
-solver.add(instance_c)
-solver.add(instance_e)
-solver.add(instance_neg_c)
-solver.add(instance_neg_e)
-
-# Check for satisfiability
+solver.add(formula)
 result = solver.check()
-print("Result:", result)
+
+print(result)
+if result == sat:
+    model = solver.model()
+    print(model)
